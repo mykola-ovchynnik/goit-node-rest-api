@@ -8,8 +8,8 @@ reading, updating, and deleting contacts.
 Clone the repository and install dependencies:
 
 ```bash
-git clone <https://github.com/mykola-ovchynnik/goit-node-rest-api.git>
-cd <goit-node-rest-api>
+git clone https://github.com/mykola-ovchynnik/goit-node-rest-api.git
+cd goit-node-rest-api
 npm install
 ```
 
