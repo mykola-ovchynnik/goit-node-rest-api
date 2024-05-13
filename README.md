@@ -1,7 +1,7 @@
 # Contacts API
 
-This project provides a simple API for managing contacts. It includes operations for creating,
-reading, updating, and deleting contacts.
+This project is a RESTful API built with Node.js, Express, and MongoDB. It provides a simple API for
+managing contacts. It includes operations for creating, reading, updating, and deleting contacts.
 
 ## Installation
 
@@ -13,6 +13,9 @@ cd goit-node-rest-api
 npm install
 ```
 
+Before starting the server, make sure to create a .env file with same variable as in .env.example
+for DB conection.
+
 ## Usage
 
 The API provides the following endpoints:
@@ -22,6 +25,7 @@ The API provides the following endpoints:
 - `POST /contacts`: Create a new contact.
 - `PUT /contacts/:id`: Update a contact by ID.
 - `DELETE /contacts/:id`: Delete a contact by ID.
+- `PATCH /contacts/:id/favorite`: Mark a contact as a favorite.
 
 ## Controllers
 
@@ -30,9 +34,9 @@ wrapped with a decorator that handles error propagation.
 
 ## Services
 
-The actual operations on the contacts are performed by the services defined in
-`contactsServices.js`. These services interact with the data source to fetch, create, update, and
-delete contacts.
+The actual operations on the contacts are performed by the services defined in contactsServices.js.
+These services interact with the data source to fetch, create, update, and delete contacts, and
+update the favorite status of a contact.
 
 ## Error Handling
 
