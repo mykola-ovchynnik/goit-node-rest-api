@@ -3,9 +3,10 @@ import HttpError from '../helpers/HttpError.js';
 import {
   getContactById,
   listContacts,
-  removeContact,
+  removeContactById,
   addContact,
   updateContactById,
+  updateStatusContact,
 } from '../services/contactsServices.js';
 
 export const getAllContacts = controllerWrapper(async (req, res) => {
@@ -40,8 +41,18 @@ export const updateContact = controllerWrapper(async (req, res) => {
   res.json(result);
 });
 
+export const updateStatus = controllerWrapper(async (req, res) => {
+  const result = await updateStatusContact(req.params.id, req.body);
+
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
+
+  res.json(result);
+});
+
 export const deleteContact = controllerWrapper(async (req, res) => {
-  const result = await removeContact(req.params.id);
+  const result = await removeContactById(req.params.id);
 
   if (!result) {
     throw HttpError(404, 'Not found');
