@@ -1,11 +1,62 @@
-import contactsService from "../services/contactsServices.js";
+import controllerWrapper from '../decorators/controllerWrapper.js';
+import HttpError from '../helpers/HttpError.js';
+import {
+  getContactById,
+  listContacts,
+  removeContactById,
+  addContact,
+  updateContactById,
+  updateStatusContact,
+} from '../services/contactsServices.js';
 
-export const getAllContacts = (req, res) => {};
+export const getAllContacts = controllerWrapper(async (req, res) => {
+  const result = await listContacts();
 
-export const getOneContact = (req, res) => {};
+  res.json(result);
+});
 
-export const deleteContact = (req, res) => {};
+export const getOneContact = controllerWrapper(async (req, res) => {
+  const result = await getContactById(req.params.id);
 
-export const createContact = (req, res) => {};
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
 
-export const updateContact = (req, res) => {};
+  res.json(result);
+});
+
+export const createContact = controllerWrapper(async (req, res) => {
+  const result = await addContact(req.body);
+
+  res.status(201).json(result);
+});
+
+export const updateContact = controllerWrapper(async (req, res) => {
+  const result = await updateContactById(req.params.id, req.body);
+
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
+
+  res.json(result);
+});
+
+export const updateStatus = controllerWrapper(async (req, res) => {
+  const result = await updateStatusContact(req.params.id, req.body);
+
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
+
+  res.json(result);
+});
+
+export const deleteContact = controllerWrapper(async (req, res) => {
+  const result = await removeContactById(req.params.id);
+
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
+
+  res.json(result);
+});
