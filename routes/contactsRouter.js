@@ -8,7 +8,11 @@ import {
   updateContact,
   updateStatus,
 } from '../controllers/contactsControllers.js';
-import { createContactSchema, updateContactSchema } from '../schemas/contactsSchemas.js';
+import {
+  createContactSchema,
+  updateContactSchema,
+  updateStatusSchema,
+} from '../schemas/contactsSchemas.js';
 import isBodyEmpty from '../middlewares/isBodyEmpty.js';
 import isValidId from '../middlewares/isValidId.js';
 
@@ -34,7 +38,7 @@ contactsRouter.patch(
   '/:id/favorite',
   isValidId,
   isBodyEmpty,
-  validateBody(updateContactSchema),
+  validateBody(updateStatusSchema),
   updateStatus
 );
 
