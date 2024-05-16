@@ -33,6 +33,6 @@ authUserSchema.pre('findOneAndUpdate', setUpdateOptions);
 
 authUserSchema.post('findOneAndUpdate', handleSaveError);
 
-const User = model('User', authUserSchema);
+const User = model('user', authUserSchema);
 
 export default User;
