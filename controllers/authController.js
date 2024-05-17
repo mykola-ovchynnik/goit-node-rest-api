@@ -20,7 +20,7 @@ export const login = controllerWrapper(async (req, res) => {
   const user = await findUser({ email: req.body.email });
 
   if (!user) {
-    throw HttpError(404, 'Email or password is wrong');
+    throw HttpError(401, 'Email or password is wrong');
   }
 
   const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
