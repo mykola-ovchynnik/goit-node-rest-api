@@ -5,6 +5,8 @@ export const setUpdateOptions = function (next) {
 };
 
 export const handleSaveError = (error, data, next) => {
-  error.status = 400;
+  const { name, code } = error;
+
+  error.status = name === 'MongoserverError' && code === 11000 ? 409 : 400;
   next();
 };
