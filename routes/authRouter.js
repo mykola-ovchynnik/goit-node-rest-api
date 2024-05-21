@@ -1,36 +1,36 @@
 import express from 'express';
 import isBodyEmpty from '../middlewares/isBodyEmpty.js';
 import validateBody from '../middlewares/validateBody.js';
-import {
-  register,
-  login,
-  logout,
-  getCurrent,
-  updateSubscription,
-} from '../controllers/authController.js';
-import {
-  createUserAuthSchema,
-  loginUserSchema,
-  updateSubscriptionSchema,
-} from '../schemas/AuthSchema.js';
+import authControllers from '../controllers/authController.js';
+import authSchemas from '../schemas/AuthSchema.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/register', isBodyEmpty, validateBody(createUserAuthSchema), register);
+authRouter.post(
+  '/register',
+  isBodyEmpty,
+  validateBody(authSchemas.createUserAuthSchema),
+  authControllers.register
+);
 
-authRouter.post('/login', isBodyEmpty, validateBody(loginUserSchema), login);
+authRouter.post(
+  '/login',
+  isBodyEmpty,
+  validateBody(authSchemas.loginUserSchema),
+  authControllers.login
+);
 
-authRouter.post('/logout', authenticate, logout);
+authRouter.post('/logout', authenticate, authControllers.logout);
 
-authRouter.get('/current', authenticate, getCurrent);
+authRouter.get('/current', authenticate, authControllers.getCurrent);
 
 authRouter.patch(
   '/',
   authenticate,
   isBodyEmpty,
-  validateBody(updateSubscriptionSchema),
-  updateSubscription
+  validateBody(authSchemas.updateSubscriptionSchema),
+  authControllers.updateSubscription
 );
 
 export default authRouter;
