@@ -2,7 +2,7 @@ import multer from 'multer';
 import path from 'path';
 import HttpError from '../helpers/HttpError.js';
 
-const destination = path.resolve('public');
+const destination = path.resolve('temp');
 const allowedFileExtensions = ['jpg', 'jpeg', 'png', 'svg', 'gif', 'pdf'];
 
 const storage = multer.diskStorage({

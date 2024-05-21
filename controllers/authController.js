@@ -3,6 +3,7 @@ import HttpError from '../helpers/HttpError.js';
 import authServices from '../services/authServices.js';
 import bcrypt from 'bcrypt';
 import { createToken } from '../helpers/jwt.js';
+import { processAvatar } from '../helpers/processAvatar.js';
 
 const register = controllerWrapper(async (req, res) => {
   const user = await authServices.findUser({ email: req.body.email });
@@ -11,7 +12,9 @@ const register = controllerWrapper(async (req, res) => {
     throw HttpError(409, 'Email in use!');
   }
 
-  const newUser = await authServices.saveUser(req.body);
+  const avatarURL = await processAvatar(req.file);
+
+  const newUser = await authServices.saveUser({ ...req.body, avatarURL });
 
   res.status(201).json({ user: { email: newUser.email, subscription: newUser.subscription } });
 });

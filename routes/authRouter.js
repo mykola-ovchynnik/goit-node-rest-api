@@ -4,11 +4,13 @@ import validateBody from '../middlewares/validateBody.js';
 import authControllers from '../controllers/authController.js';
 import authSchemas from '../schemas/AuthSchema.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import upload from '../middlewares/upload.js';
 
 const authRouter = express.Router();
 
 authRouter.post(
   '/register',
+  upload.single('avatar'),
   isBodyEmpty,
   validateBody(authSchemas.createUserAuthSchema),
   authControllers.register
