@@ -11,3 +11,5 @@ export const saveUser = async data => {
 export const updateUserById = (id, data) => {
   return User.findByIdAndUpdate(id, data);
 };
+
+export default { findUser, saveUser, updateUserById };
