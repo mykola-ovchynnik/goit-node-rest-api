@@ -16,7 +16,11 @@ const register = controllerWrapper(async (req, res) => {
 
   const newUser = await authServices.saveUser({ ...req.body, avatarURL });
 
-  res.status(201).json({ user: { email: newUser.email, subscription: newUser.subscription } });
+  res
+    .status(201)
+    .json({
+      user: { email: newUser.email, subscription: newUser.subscription, avatar: newUser.avatarURL },
+    });
 });
 
 const login = controllerWrapper(async (req, res) => {

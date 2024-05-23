@@ -10,7 +10,7 @@ export const processAvatar = async reqestFileData => {
 
   await fs.rename(tempPath, newPath);
 
-  const avatar = path.join('public', 'avatars', filename);
+  const avatar = path.join('avatars', filename);
 
   return avatar;
 };
