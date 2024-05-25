@@ -3,7 +3,7 @@ import HttpError from '../helpers/HttpError.js';
 import authServices from '../services/authServices.js';
 import bcrypt from 'bcrypt';
 import { createToken } from '../helpers/jwt.js';
-import { processAvatar } from '../helpers/processAvatar.js';
+import processAvatar from '../helpers/processAvatar.js';
 
 const register = controllerWrapper(async (req, res) => {
   const user = await authServices.findUser({ email: req.body.email });
@@ -12,15 +12,13 @@ const register = controllerWrapper(async (req, res) => {
     throw HttpError(409, 'Email in use!');
   }
 
-  const avatarURL = await processAvatar(req.file);
+  const avatarURL = processAvatar.generateAvatar(req.body.email);
 
   const newUser = await authServices.saveUser({ ...req.body, avatarURL });
 
-  res
-    .status(201)
-    .json({
-      user: { email: newUser.email, subscription: newUser.subscription, avatar: newUser.avatarURL },
-    });
+  res.status(201).json({
+    user: { email: newUser.email, subscription: newUser.subscription },
+  });
 });
 
 const login = controllerWrapper(async (req, res) => {
@@ -30,7 +28,10 @@ const login = controllerWrapper(async (req, res) => {
     throw HttpError(401, 'Email or password is wrong');
   }
 
-  const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
+  const isPasswordCorrect = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
 
   if (!isPasswordCorrect) {
     throw HttpError(401, 'Email or password is wrong');
@@ -67,4 +68,23 @@ const updateSubscription = controllerWrapper(async (req, res) => {
   res.json(updatedUser);
 });
 
-export default { register, login, logout, getCurrent, updateSubscription };
+const updateAvatar = controllerWrapper(async (req, res) => {
+  if (!req.file) throw HttpError(400, 'Avatar is required');
+
+  const avatarURL = await processAvatar.getAvatarURL(req.file);
+
+  const updatedUser = await authServices.updateUserById(req.user._id, {
+    avatarURL,
+  });
+
+  res.json({ avatarURL: updatedUser.avatarURL });
+});
+
+export default {
+  register,
+  login,
+  logout,
+  getCurrent,
+  updateSubscription,
+  updateAvatar,
+};

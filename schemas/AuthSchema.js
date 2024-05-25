@@ -18,4 +18,8 @@ const updateSubscriptionSchema = Joi.object({
     .required(),
 });
 
-export default { createUserAuthSchema, loginUserSchema, updateSubscriptionSchema };
+export default {
+  createUserAuthSchema,
+  loginUserSchema,
+  updateSubscriptionSchema,
+};
