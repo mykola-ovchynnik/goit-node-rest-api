@@ -1,7 +1,7 @@
 import controllerWrapper from '../decorators/controllerWrapper.js';
 import HttpError from '../helpers/HttpError.js';
 import { verifyToken } from '../helpers/jwt.js';
-import { findUser } from '../services/authServices.js';
+import authServices from '../services/authServices.js';
 
 export const authenticate = controllerWrapper(async (req, res, next) => {
   const { authorization } = req.headers;
@@ -16,7 +16,7 @@ export const authenticate = controllerWrapper(async (req, res, next) => {
   }
 
   const { id } = verifyToken(token);
-  const user = await findUser({ _id: id });
+  const user = await authServices.findUser({ _id: id });
   if (!user || !user.token) {
     throw HttpError(401, 'Not authorized');
   }
