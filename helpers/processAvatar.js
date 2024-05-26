@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import gravatar from 'gravatar';
 import Jimp from 'jimp';
+import HttpError from './HttpError';
 
 const avatarsDir = path.resolve('public', 'avatars');
 
@@ -22,10 +23,12 @@ const processImage = async imagePath => {
         )
         .write(imagePath);
     })
-    .catch(error => console.log(error.message));
+    .catch(error => {
+      throw HttpError(400, error.message);
+    });
 };
 
-const getAvatarURL = async file => {
+const processAvatar = async file => {
   const { path: tempPath, filename } = file;
 
   const newPath = path.join(avatarsDir, filename);
@@ -39,4 +42,4 @@ const getAvatarURL = async file => {
   return avatar;
 };
 
-export default { getAvatarURL, generateAvatar };
+export default { processAvatar, generateAvatar };

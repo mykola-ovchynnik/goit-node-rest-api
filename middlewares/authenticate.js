@@ -12,7 +12,7 @@ export const authenticate = controllerWrapper(async (req, res, next) => {
 
   const [bearer, token] = authorization.split(' ');
   if (bearer !== 'Bearer') {
-    throw next(HttpError(401, 'Bearer not found'));
+    throw next(HttpError(401, 'Not authorized'));
   }
 
   const { id } = verifyToken(token);

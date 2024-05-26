@@ -65,13 +65,16 @@ const updateSubscription = controllerWrapper(async (req, res) => {
   const updatedUser = await authServices.updateUserById(req.user._id, {
     subscription: req.body.subscription,
   });
-  res.json(updatedUser);
+  res.json({
+    email: updatedUser.email,
+    subscription: updatedUser.subscription,
+  });
 });
 
 const updateAvatar = controllerWrapper(async (req, res) => {
   if (!req.file) throw HttpError(400, 'Avatar is required');
 
-  const avatarURL = await processAvatar.getAvatarURL(req.file);
+  const avatarURL = await processAvatar.processAvatar(req.file);
 
   const updatedUser = await authServices.updateUserById(req.user._id, {
     avatarURL,
