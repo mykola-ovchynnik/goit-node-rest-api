@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import gravatar from 'gravatar';
 import Jimp from 'jimp';
-import HttpError from './HttpError';
+import HttpError from './HttpError.js';
 
 const avatarsDir = path.resolve('public', 'avatars');
 
