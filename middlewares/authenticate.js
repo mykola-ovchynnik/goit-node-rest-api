@@ -17,7 +17,7 @@ export const authenticate = controllerWrapper(async (req, res, next) => {
 
   const { id } = verifyToken(token);
   const user = await authServices.findUser({ _id: id });
-  if (!user || !user.token) {
+  if (!user || !user.token || !user.verify) {
     throw HttpError(401, 'Not authorized');
   }
 

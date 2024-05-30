@@ -18,8 +18,13 @@ const updateSubscriptionSchema = Joi.object({
     .required(),
 });
 
+const resendVerificationEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegExp).required(),
+});
+
 export default {
   createUserAuthSchema,
   loginUserSchema,
   updateSubscriptionSchema,
+  resendVerificationEmailSchema,
 };

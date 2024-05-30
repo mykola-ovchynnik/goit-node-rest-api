@@ -22,6 +22,15 @@ authRouter.post(
   authControllers.login
 );
 
+authRouter.get('/verify/:verificationToken', authControllers.verifyUserEmail);
+
+authRouter.post(
+  '/verify',
+  isBodyEmpty,
+  validateBody(authSchemas.resendVerificationEmailSchema),
+  authControllers.resendVerificationEmail
+);
+
 authRouter.post('/logout', authenticate, authControllers.logout);
 
 authRouter.get('/current', authenticate, authControllers.getCurrent);

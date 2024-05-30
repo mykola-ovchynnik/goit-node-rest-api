@@ -1,4 +1,3 @@
-import e from 'cors';
 import { Schema, model } from 'mongoose';
 import { handleSaveError, setUpdateOptions } from './hooks.js';
 import { subscriptionTypes } from '../constants/authConstants.js';
@@ -25,6 +24,14 @@ const authUserSchema = new Schema(
     },
     avatarURL: {
       type: String,
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
     },
   },
   { versionKey: false, timestamps: true }

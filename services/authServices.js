@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 
@@ -5,7 +6,9 @@ const findUser = filter => User.findOne(filter);
 
 const saveUser = async data => {
   const hashPassword = await bcrypt.hash(data.password, 10);
-  return User.create({ ...data, password: hashPassword });
+  const verificationToken = nanoid();
+
+  return User.create({ ...data, password: hashPassword, verificationToken });
 };
 
 const updateUserById = (id, data) => {
